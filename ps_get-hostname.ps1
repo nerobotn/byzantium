@@ -22,13 +22,19 @@ if (Test-Path $filePath -PathType Leaf) {
     # Read the file content
     $ipAddresses = Get-Content $filePath
 
+    # Output file path
+    $outputFilePath = "$env:USERPROFILE\Desktop\IPv4_Address_Hostnames.txt"
+
     # Iterate through each IPv4 address and get its hostname or computer name
     foreach ($ipAddress in $ipAddresses) {
         # Get the hostname or computer name for the IPv4 address
         $hostName = Get-HostName -IPAddress $ipAddress
 
-        Write-Host "IPv4 Address: $ipAddress, Hostname or Computer Name: $hostName"
+        # Write the result to the output file
+        Add-Content -Path $outputFilePath -Value "IPv4 Address: $ipAddress, Hostname or Computer Name: $hostName"
     }
+
+    Write-Host "Results have been saved to: $outputFilePath"
 } else {
     Write-Host "File not found: $filePath"
 }
